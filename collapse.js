@@ -6,14 +6,11 @@ let upright = 5;
 function shuffle(array) {
   let currentIndex = array.length,  randomIndex;
 
-  // While there remain elements to shuffle.
   while (currentIndex > 0) {
 
-    // Pick a remaining element.
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
 
-    // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex], array[currentIndex]];
   }
@@ -138,12 +135,9 @@ function waveFunctionCollapse(grid) {
     const width = grid.length;
     const height = grid[0].length;
    const maxAttempts = 10000;
-    // Funkce pro získání možných hodnot dlaždice na dané pozici
     function getPossibleValues(x, y) {
-        ////console.log(grid);
         var possibilites = [];
         var c = connections(grid,x,y);
-        ////console.log(c);
         var crossP = [1,1,1,1];
         var downleftP = [0,1,1,0];
         var startP = [0,0,0,1];
@@ -162,27 +156,6 @@ function waveFunctionCollapse(grid) {
         
       return shuffle(possibilites);
     }
-    /*
-  
-    // Funkce pro aplikaci wave function collapse na mřížku
-    function collapse() {
-      for (let x = 0; x <width ; x++) {
-        for (let y = 0; y <height; y++) {
-          if (grid[x][y] === -1) {
-            const possibleValues = getPossibleValues(x, y);
-            //console.log("possible for ",x,y)
-            //console.log(possibleValues)
-            const selectedValue = possibleValues[Math.floor(Math.random() * possibleValues.length)];
-            //console.log("value");
-            //console.log(selectedValue);
-            grid[x][y] = selectedValue;
-          }
-        }
-      }
-    }
-  
-  */
-    // Inicializace mřížky - předpokládám, že -1 značí nepřiřazenou dlaždici
     for (let x = 0; x < width; x++) {
       for (let y = 0; y < height; y++) {
         if (grid[x][y] == 0) {
@@ -199,63 +172,26 @@ function waveFunctionCollapse(grid) {
         }
       }
     }
-    //console.log("complet")
     return true;
   }
 
- // ...
-/*
-function collapse() {
-      var nb = getFreeNeighbours(array,x,y)
-
-      if (grid[x][y] === -1) {
-        const possibleValues = getPossibleValues(x, y);
-          for(const val of possibleValues){
-              grid[x][y] = val;
-              if(isComplete()||collapse()){
-                return true;
-              }
-          }
-        //console.log("vracim se")
-        grid[x][y] = -1;
-
-        return false;
-      }
-  if(isComplete()){
-
-    
-    return true; // Při úspěšném dokončení všech kroků vracíme true
-  }
-  else{
-    grid[x][y] = -1;
-  }
-}
-*/
 function collapse(pos){
-  //console.log("pos")
-  //console.log(pos)
   var nb = getFreeNeighbours(grid,pos);
-  //console.log(nb)
   
   if(grid[pos[0]][pos[1]]===-1){
     const possibleValues = getPossibleValues(pos[0],pos[1]);
     if(!possibleValues.length){
-      //console.log("to je ale otrava")
       grid[pos[0]][pos[1]] = -1;
       return false;
     }
     for(const val of possibleValues){
       grid[pos[0]][pos[1]]=val;
       for(const n of nb){
-        //console.log("doing n")
-        //console.log(n)
         if(!collapse(n)){
           break;
         }
       }
       if(isComplete()){
-        //console.log("nasel jsem pravdu");
-       // console.table(grid);
         return true;
       }else{
         return false;
@@ -266,49 +202,8 @@ function collapse(pos){
 }
 
 
-  
-  // ...
-  
-
-
-
-
-    // Provedení wave function collapse
-    /*
-  for (var i = 0; i < width; i++) {
-    //console.log("Provadim")
-    if (isComplete()) {
-      //console.log("je to komplet")
-      break;
-    }
-    for (var j = 0; j < height; j++) {
-      //console.log("zkousim");
-      var result = collapse([i, j]);
-      if (isComplete()) {
-        break;
-      } else {
-
-        for (let x = 0; x < width; x++) {
-          for (let y = 0; y < height; y++) {
-            if (grid[x][y] == 0) {
-              grid[x][y] = -1;
-            }
-          }
-        }
-      }
-
-    }
-  }
-  */
-    //result = collapse([0,0])
     result = collapse([width-1,height-1])
-
-    //console.log(result);
-    //console.log(isComplete());
-    //console.log(maxAttempts);
-  
     return grid;
   }
   
-  // Příklad použití
  
